@@ -18,3 +18,7 @@ python main.py
 - SQLAlchemy docs: https://docs.sqlalchemy.org/en/20/
 - Flask-SQLAlchemy tutorial: https://flask-sqlalchemy.readthedocs.io/en/stable/quickstart/
 - Flask and Bootstrap tutorial: https://codejana.com/flask-bootstrap-tutorial-adding-bootstrap/
+
+## Videos
+- Demo: https://www.youtube.com/watch?v=PfbP39VgiKA
+- Walkthrough: https://www.youtube.com/watch?v=qS4S9UqF2_I
