@@ -1,0 +1,83 @@
+{% extends 'layout.html' %}
+
+{% block title %}Plants{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center">
+    <h1>Plants</h1>
+    <a class="btn btn-success" href="{{ url_for('api.new_plant_page') }}">Add Plant</a>
+  </div>
+
+  <form class="row g-3 my-3" method="get">
+    <div class="col-auto">
+      <label class="visually-hidden">Collection</label>
+      <select name="collection_id" class="form-select" onchange="this.form.submit()">
+        <option value="">All Collections</option>
+        {% for c in collections %}
+          <option value="{{ c.id }}" {% if selected_collection==c.id %}selected{% endif %}>{{ c.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </form>
+
+  <ul class="list-group">
+  {% for p in plants %}
+    <li class="list-group-item">
+      <div class="d-flex justify-content-between">
+        <div>
+          <strong>{{ p.name }}</strong>
+          {% if p.notes %}<div class="small">{{ p.notes }}</div>{% endif %}
+        </div>
+        <div class="btn-group">
+          <a class="btn btn-primary btn-sm" href="{{ url_for('api.edit_plant_page', plant_id=p.id) }}">Edit</a>
+          <form method="post" action="{{ url_for('api.delete_plant_ui', plant_id=p.id) }}" style="display:inline" onsubmit="return confirm('Delete plant?');">
+            <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="mt-2">
+        <form method="post" action="{{ url_for('api.add_plant_to_collection_ui', plant_id=p.id) }}" class="row g-2">
+          <div class="col-auto">
+            <select name="collection_id" class="form-select form-select-sm">
+              <option value="">Select collection</option>
+              {% for c in collections %}
+                <option value="{{ c.id }}">{{ c.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-auto">
+            <button class="btn btn-outline-secondary btn-sm">Add to collection</button>
+          </div>
+        </form>
+      </div>
+      {% if p.collections %}
+        <div class="mt-2">
+          <strong>Collections:</strong>
+          {% for c in p.collections %}
+            <span class="badge bg-secondary me-1">{{ c.name }}</span>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <div class="mt-2">
+        <strong>Watering Days:</strong>
+        <div class="btn-group btn-group-sm" role="group" aria-label="weekdays">
+          {% set wd = p.watering_days_list %}
+          {% for d in ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'] %}
+            {% if d in wd %}
+              <span class="btn btn-success">{{ d[:3] }}</span>
+            {% else %}
+              <span class="btn btn-outline-secondary">{{ d[:3] }}</span>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </li>
+  {% else %}
+    <li class="list-group-item">No plants found.</li>
+  {% endfor %}
+  </ul>
+</div>
+{% endblock %}

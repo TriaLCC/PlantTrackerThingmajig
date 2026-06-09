@@ -1,0 +1,47 @@
+{% extends 'layout.html' %}
+
+{% block title %}Watering Schedule{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center">
+    <h1>Watering Schedule</h1>
+  </div>
+
+  <form class="row g-3 my-3" method="get">
+    <div class="col-auto">
+      <label class="visually-hidden">Collection</label>
+      <select name="collection_id" class="form-select" onchange="this.form.submit()">
+        <option value="">All Collections</option>
+        {% for c in collections %}
+          <option value="{{ c.id }}" {% if selected_collection==c.id %}selected{% endif %}>{{ c.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </form>
+
+  <div class="row">
+    {% for day, plants in schedule.items() %}
+      <div class="col-md-4 mb-3">
+          <div class="card h-100 {% if plants %}bg-success text-white{% endif %}">
+          <div class="card-body">
+            <h5 class="card-title">{{ day }}</h5>
+            {% if plants %}
+              <ul class="list-unstyled">
+              {% for p in plants %}
+                <li>
+                  <strong>{{ p.name }}</strong>
+                  </li>
+              {% endfor %}
+              </ul>
+            {% else %}
+              <p class="text-muted">No plants scheduled</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

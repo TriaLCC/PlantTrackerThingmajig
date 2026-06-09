@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+
+{% block title %}{{ 'Edit Plant' if plant else 'New Plant' }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h1>{{ 'Edit Plant' if plant else 'New Plant' }}</h1>
+  <form method="post">
+    <div class="mb-3">
+      <label class="form-label">Name</label>
+      <input class="form-control" name="name" value="{{ plant.name if plant else '' }}" />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Watering Days</label>
+      <div>
+        {% set selected = plant.watering_days_list if plant else [] %}
+        {% for d in days %}
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" name="watering_days" id="day_{{ loop.index }}" value="{{ d }}" {% if d in selected %}checked{% endif %}>
+            <label class="form-check-label" for="day_{{ loop.index }}">{{ d }}</label>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Notes</label>
+      <textarea class="form-control" name="notes">{{ plant.notes if plant else '' }}</textarea>
+    </div>
+    <button class="btn btn-primary" type="submit">Save</button>
+    <a class="btn btn-secondary" href="{{ url_for('api.plants_page') }}">Cancel</a>
+  </form>
+</div>
+{% endblock %}

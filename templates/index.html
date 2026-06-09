@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block title %}My Plants{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+	<h1>Plant Tracker</h1>
+	<hr />
+	<h2>Plants in database</h2>
+	<div class="row my-4">
+		<div class="col-md-4">
+			<a class="text-decoration-none" href="{{ url_for('api.plants_page') }}">
+				<div class="card p-3">
+					<h5>Plants</h5>
+					<div class="display-6">{{ plants_count }}</div>
+					<div class="small text-muted">View and manage plants</div>
+				</div>
+			</a>
+		</div>
+		<div class="col-md-4">
+			<a class="text-decoration-none" href="{{ url_for('api.collections_page') }}">
+				<div class="card p-3">
+					<h5>Collections</h5>
+					<div class="display-6">{{ collections_count }}</div>
+					<div class="small text-muted">View and manage collections</div>
+				</div>
+			</a>
+		</div>
+	</div>
+	<h2>Watering Schedule</h2>
+	<div class="row my-4">
+		<div class="col-md-4">
+			<a class="text-decoration-none" href="{{ url_for('api.schedule_page') }}">
+				<div class="card p-3">
+					<h5>Today ({{ today_name }})</h5>
+					<div class="display-6">{{ today_count }}</div>
+					  <div class="small text-muted">Plants to water today - view full schedule</div>
+				</div>
+			</a>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
